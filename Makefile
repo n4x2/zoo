@@ -1,4 +1,7 @@
-.PHONY: test lint it
+.PHONY: servedoc test lint it
+
+servedoc:
+	@golds ./...
 
 test:
 	@go test ./... \
