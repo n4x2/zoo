@@ -73,6 +73,7 @@ func (r *required) Validate(f, v, _ string) error {
 	if v == "" {
 		return fmt.Errorf("%s is required", f)
 	}
+
 	return nil
 }
 
@@ -80,7 +81,7 @@ type (
 	// ErrValidation contains field name and validation errors.
 	ErrValidation struct {
 		Field string
-		Err   []string
+		Errs  []string
 	}
 
 	// Field contains name, value, and tags of the field.
@@ -91,8 +92,7 @@ type (
 
 	// Tag contain name tag and the parameters.
 	Tag struct {
-		Name  string
-		Param string
+		Name, Param string
 	}
 
 	// Validator contains validator tag and default rules.
@@ -103,16 +103,13 @@ type (
 )
 
 // isStructType check if given value is a struct.
-func isStructType(s interface{}) bool {
-	v := reflect.ValueOf(s)
-
+func isStructType(v reflect.Value) bool {
 	return v.Kind() == reflect.Struct
 }
 
 // parseName parse field name.
 func parseName(f reflect.StructField) string {
-	jsonName, exist := f.Tag.Lookup(jsonTag)
-	if exist {
+	if jsonName, exist := f.Tag.Lookup(jsonTag); exist {
 		return jsonName
 	}
 
@@ -132,15 +129,15 @@ func parseValue(v reflect.Value) string {
 func parseTag(v string) []Tag {
 	var tags []Tag
 
-	listOfTag := strings.Split(v, separatorTag)
-	for _, t := range listOfTag {
+	l := strings.Split(v, separatorTag)
+	for _, t := range l {
 		var tag Tag
 
-		partsOfTag := strings.Split(t, pairSeparatorTag)
-		if len(partsOfTag) > 1 {
-			tag.Param = partsOfTag[indexParam]
+		p := strings.Split(t, pairSeparatorTag)
+		if len(p) > 1 {
+			tag.Param = p[indexParam]
 		}
-		tag.Name = partsOfTag[indexName]
+		tag.Name = p[indexName]
 
 		tags = append(tags, tag)
 	}
@@ -163,14 +160,11 @@ func (v *Validator) AddRule(r Rule) error {
 
 // serialize serialize struct into fields, it will return
 // error if unexported field encountered.
-func (v *Validator) serialize(s interface{}) ([]Field, error) {
+func (v *Validator) serialize(val reflect.Value) ([]Field, error) {
 	var fields []Field
 
-	val := reflect.ValueOf(s)
 	t := val.Type()
-
 	for i := 0; i < val.NumField(); i++ {
-		// Checks field is exportable.
 		if t.Field(i).PkgPath != "" {
 			return nil, errUnexportedField
 		}
@@ -201,6 +195,7 @@ func (v *Validator) SetValidatorTag(n string) error {
 // validateField validate the field.
 func (v *Validator) validateField(f Field) ErrValidation {
 	var e ErrValidation
+
 	for _, t := range f.Tags {
 		if t.Name == skipValidationTag && f.Value == "" {
 			break
@@ -208,10 +203,9 @@ func (v *Validator) validateField(f Field) ErrValidation {
 
 		for _, r := range v.rules {
 			if r.Name() == t.Name {
-				err := r.Validate(f.Name, f.Value, t.Param)
-				if err != nil {
+				if err := r.Validate(f.Name, f.Value, t.Param); err != nil {
 					e.Field = f.Name
-					e.Err = append(e.Err, err.Error())
+					e.Errs = append(e.Errs, err.Error())
 				}
 			}
 		}
@@ -221,7 +215,9 @@ func (v *Validator) validateField(f Field) ErrValidation {
 }
 
 // Validate validate given struct based on associated tags.
-func (v *Validator) Validate(s interface{}) ([]ErrValidation, error) {
+func (v *Validator) Validate(i interface{}) ([]ErrValidation, error) {
+	s := reflect.ValueOf(i)
+
 	if ok := isStructType(s); !ok {
 		return nil, fmt.Errorf("validator: %s", errInvalidStruct)
 	}
@@ -231,27 +227,26 @@ func (v *Validator) Validate(s interface{}) ([]ErrValidation, error) {
 		return nil, fmt.Errorf("validator: %s", err)
 	}
 
-	var errs []ErrValidation
+	var e []ErrValidation
 
 	for _, f := range fields {
-		err := v.validateField(f)
-		if err.Err != nil {
-			errs = append(errs, err)
+		if err := v.validateField(f); err.Errs != nil {
+			e = append(e, err)
 		}
 	}
 
-	return errs, nil
+	return e, nil
 }
 
 // New create new validator instances.
 func New() *Validator {
-	defaultRule := []Rule{
+	r := []Rule{
 		&enum{},
 		&required{},
 	}
 
 	return &Validator{
 		validatorTag: validationTag,
-		rules:        defaultRule,
+		rules:        r,
 	}
 }
