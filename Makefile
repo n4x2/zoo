@@ -6,7 +6,8 @@ servedoc:
 test:
 	@go test ./... \
 		-coverprofile=coverage.out \
-		-race
+		-race \
+		-v
 
 lint:
 	@golangci-lint run ./...
