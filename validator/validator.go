@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -199,6 +200,25 @@ func (v *Validator) Validate(i interface{}) ([]ErrValidation, error) {
 	return e, nil
 }
 
+// max checks given value is not greater than parameter.
+func max(f, v, p string) error {
+	param, err := strconv.ParseFloat(p, 64)
+	if err != nil {
+		return err
+	}
+
+	val, err := strconv.ParseFloat(v, 64)
+	if err != nil {
+		return err
+	}
+
+	if val > param {
+		return fmt.Errorf("%s must not be greater than %s", f, p)
+	}
+
+	return nil
+}
+
 // required is validation rule that checks if a field is not empty.
 func required(f, v, _ string) error {
 	if v == "" {
@@ -211,6 +231,7 @@ func required(f, v, _ string) error {
 // New create new validator instances.
 func New() *Validator {
 	r := map[string]Rule{
+		"max":      max,
 		"required": required,
 	}
 
