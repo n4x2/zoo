@@ -30,15 +30,12 @@ func Example() {
 	// {name [name is required]}
 }
 
-type newRule struct{}
-
-func (r *newRule) Name() string                  { return "newrule" }
-func (r *newRule) Validate(f, v, p string) error { return nil }
+func Enum(f, v, p string) error { return nil }
 
 func ExampleValidator_AddRule() {
 	v := validator.New()
 
-	err := v.AddRule(&newRule{})
+	err := v.AddRule("enum", Enum)
 	if err != nil {
 		fmt.Print(err)
 	}

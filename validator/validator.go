@@ -39,44 +39,6 @@ var (
 	errUnexportedField = errors.New("unexported field encountered")
 )
 
-// Rule represents rule for validation.
-type Rule interface {
-	Name() string
-	Validate(f, v, p string) error
-}
-
-type (
-	enum     struct{}
-	required struct{}
-
-	// TODO
-	// add more rules.
-)
-
-func (r *enum) Name() string     { return "enum" }
-func (r *required) Name() string { return "required" }
-
-func (r *enum) Validate(_, v, p string) error {
-	options := strings.Split(p, paramSeparatorTag)
-	// TODO
-	// use slices.Contains() in go 1.21.
-	for _, o := range options {
-		if v != o {
-			return fmt.Errorf("selected %s is invalid", v)
-		}
-	}
-
-	return nil
-}
-
-func (r *required) Validate(f, v, _ string) error {
-	if v == "" {
-		return fmt.Errorf("%s is required", f)
-	}
-
-	return nil
-}
-
 type (
 	// ErrValidation contains field name and validation errors.
 	ErrValidation struct {
@@ -90,6 +52,9 @@ type (
 		Tags        []Tag
 	}
 
+	// Rule represents a validation rule.
+	Rule func(f, v, p string) error
+
 	// Tag contain name tag and the parameters.
 	Tag struct {
 		Name, Param string
@@ -98,7 +63,7 @@ type (
 	// Validator contains validator tag and default rules.
 	Validator struct {
 		validatorTag string
-		rules        []Rule
+		rules        map[string]Rule
 	}
 )
 
@@ -147,13 +112,11 @@ func parseTag(v string) []Tag {
 
 // AddRule add custom rule into validator, it will return
 // errors if the rule (tag) already exists.
-func (v *Validator) AddRule(r Rule) error {
-	for _, rule := range v.rules {
-		if r.Name() == rule.Name() {
-			return fmt.Errorf("validator: rule %s already exist", r.Name())
-		}
+func (v *Validator) AddRule(n string, f Rule) error {
+	if _, ok := v.rules[n]; ok {
+		return fmt.Errorf("validator: rule %s already exists", n)
 	}
-	v.rules = append(v.rules, r)
+	v.rules[n] = f
 
 	return nil
 }
@@ -201,12 +164,10 @@ func (v *Validator) validateField(f Field) ErrValidation {
 			break
 		}
 
-		for _, r := range v.rules {
-			if r.Name() == t.Name {
-				if err := r.Validate(f.Name, f.Value, t.Param); err != nil {
-					e.Field = f.Name
-					e.Errs = append(e.Errs, err.Error())
-				}
+		if validate, ok := v.rules[t.Name]; ok {
+			if err := validate(f.Name, f.Value, t.Param); err != nil {
+				e.Field = f.Name
+				e.Errs = append(e.Errs, err.Error())
 			}
 		}
 	}
@@ -238,11 +199,19 @@ func (v *Validator) Validate(i interface{}) ([]ErrValidation, error) {
 	return e, nil
 }
 
+// required is validation rule that checks if a field is not empty.
+func required(f, v, _ string) error {
+	if v == "" {
+		return fmt.Errorf("%s is required", f)
+	}
+
+	return nil
+}
+
 // New create new validator instances.
 func New() *Validator {
-	r := []Rule{
-		&enum{},
-		&required{},
+	r := map[string]Rule{
+		"required": required,
 	}
 
 	return &Validator{
