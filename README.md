@@ -1,2 +1,10 @@
-# Zoo
-Zoo is collection of go libraries
+
+             _oo     .-.        .-.        
+          >-(_  \  c(O_O)c    c(O_O)c      
+             / _/ ,'.---.`,  ,'.---.`,     
+            / /  / /|_|_|\ \/ /|_|_|\ \    
+           / (   | \_____/ || \_____/ |    
+          (   `-.'. `---' .`'. `---' .`    
+           `--.._) `-...-'    `-...-'      
+
+    Collection of Go libraries
