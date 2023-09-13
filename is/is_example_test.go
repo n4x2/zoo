@@ -37,6 +37,21 @@ func ExampleByte() {
 	// false
 }
 
+func ExampleEqual() {
+	var a, b = 1, 2
+	var c, d = [3]byte{'a', 'b', 'c'}, [3]byte{'c', 'b', 'a'}
+	var e, f = "equal", "equal"
+
+	fmt.Println(is.Equal(a, b))
+	fmt.Println(is.Equal(c, d))
+	fmt.Println(is.Equal(e, f))
+
+	// Output:
+	// false
+	// false
+	// true
+}
+
 func ExampleError() {
 	var e = errors.New("its error")
 	fmt.Println(is.Error(e))

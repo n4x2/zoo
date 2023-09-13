@@ -15,6 +15,11 @@ func Byte(v interface{}) bool {
 	return ok
 }
 
+// Equal checks if two comparable values are equal.
+func Equal[T comparable](v, vv T) bool {
+	return v == vv
+}
+
 // Error checks if the value is an error.
 func Error(v interface{}) bool {
 	_, ok := v.(error)
