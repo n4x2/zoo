@@ -25,6 +25,16 @@ func Contain[S ~[]E, E comparable](s S, v E) bool {
 	return false
 }
 
+// ContainOneOf checks if part of ss is present in s.
+func ContainOneOf[S comparable](s []S, ss []S) bool {
+	for i := range ss {
+		if Contain(s, ss[i]) {
+			return true
+		}
+	}
+	return false
+}
+
 // Equal checks if two comparable values are equal.
 func Equal[T comparable](v, vv T) bool {
 	return v == vv

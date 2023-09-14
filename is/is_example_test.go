@@ -49,6 +49,19 @@ func ExampleContain() {
 	// false
 }
 
+func ExampleContainOneOf() {
+	var s = []int{10, 20, 0, 100}
+	var ss = []int{2, 20, 200}
+	var a = []int{1, 2, 3}
+
+	fmt.Println(is.ContainOneOf(s, ss))
+	fmt.Println(is.ContainOneOf(s, a))
+
+	// Output:
+	// true
+	// false
+}
+
 func ExampleEqual() {
 	var a, b = 1, 2
 	var c, d = [3]byte{'a', 'b', 'c'}, [3]byte{'c', 'b', 'a'}
