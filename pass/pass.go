@@ -2,7 +2,6 @@
 package pass
 
 import (
-	"bytes"
 	"crypto/rand"
 	"errors"
 	"math/big"
@@ -21,7 +20,6 @@ var (
 	letters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	numbers = []byte("0123456789")
 	symbols = []byte("!@#$%^&*")
-	chars   = bytes.Join([][]byte{letters, numbers, symbols}, nil)
 )
 
 // invalidLengthError error returns if password length is invalid.
@@ -49,20 +47,36 @@ func randByte(s []byte) byte {
 	return s[i.Int64()]
 }
 
-// Generate generates a random string. If no length is provided, it returns a default
-// 20-character random string. If an invalid length is provided, it returns an error.
-func Generate(n ...int) (string, error) {
-	var l = defaultLength
-	if len(n) > 0 {
-		l = n[0]
+// Generate generates a random string.
+//
+// It returns a default 20-character random string containing letters, symbols and numbers.
+// Symbols and numbers is optional, set 'n' to false to exclude numbers or 's' to false to
+// exclude symbols.
+//
+// It will returns an error if provided length 'l' less than 1 or greater than 50.
+func Generate(n, s bool, l ...int) (string, error) {
+	var length = defaultLength
+	if len(l) > 0 {
+		length = l[0]
 	}
 
-	if l < minLength || l > maxLength {
+	if length < minLength || length > maxLength {
 		return "", invalidLengthError
 	}
 
-	var p = make([]byte, l)
-	var hasNumber, hasSymbol = false, false
+	var chars = letters
+	var hasNumber, hasSymbol = true, true
+	if n {
+		chars = append(chars, numbers...)
+		hasNumber = false
+	}
+
+	if s {
+		chars = append(chars, symbols...)
+		hasSymbol = false
+	}
+
+	var p = make([]byte, length)
 	for i := range p {
 		for {
 			var c = randByte(chars)

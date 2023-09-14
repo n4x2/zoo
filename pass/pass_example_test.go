@@ -7,7 +7,7 @@ import (
 )
 
 func Example() {
-	p, err := pass.Generate(12)
+	p, err := pass.Generate(false, false)
 	if err != nil {
 		panic(err)
 	}
@@ -15,5 +15,5 @@ func Example() {
 	fmt.Print(len(p))
 
 	// Output:
-	// 12
+	// 20
 }
