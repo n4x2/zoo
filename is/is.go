@@ -15,6 +15,16 @@ func Byte(v interface{}) bool {
 	return ok
 }
 
+// Contain checks if v is present in s.
+func Contain[S ~[]E, E comparable](s S, v E) bool {
+	for i := range s {
+		if v == s[i] {
+			return true
+		}
+	}
+	return false
+}
+
 // Equal checks if two comparable values are equal.
 func Equal[T comparable](v, vv T) bool {
 	return v == vv

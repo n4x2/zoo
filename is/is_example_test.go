@@ -37,6 +37,18 @@ func ExampleByte() {
 	// false
 }
 
+func ExampleContain() {
+	var s = []int{1, 2, 3, 100, 99}
+	var a, b = 100, 88
+
+	fmt.Println(is.Contain(s, a))
+	fmt.Println(is.Contain(s, b))
+
+	// Output:
+	// true
+	// false
+}
+
 func ExampleEqual() {
 	var a, b = 1, 2
 	var c, d = [3]byte{'a', 'b', 'c'}, [3]byte{'c', 'b', 'a'}
