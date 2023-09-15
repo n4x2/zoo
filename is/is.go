@@ -66,6 +66,13 @@ func Int(v interface{}) bool {
 	}
 }
 
+// Range checks if 'v' in range 'b' and 'e'.
+func Range[T interface {
+	~byte | ~rune | ~int | ~float64
+}](b, e, v T) bool {
+	return v >= b && v <= e
+}
+
 // Rune checks if the value is a rune.
 func Rune(v interface{}) bool {
 	_, ok := v.(rune)

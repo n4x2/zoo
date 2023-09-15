@@ -117,6 +117,19 @@ func ExampleInt() {
 	// true
 }
 
+func ExampleRange() {
+	fmt.Println(is.Range('a', 'z', 'd'))
+	fmt.Println(is.Range('a', 'z', 'H'))
+	fmt.Println(is.Range(-100, 100, 2))
+	fmt.Println(is.Range(-0.001, 1.1, 0.1))
+
+	// Output:
+	// true
+	// false
+	// true
+	// true
+}
+
 func ExampleRune() {
 	var r = rune('a')
 	fmt.Println(is.Rune(r))
