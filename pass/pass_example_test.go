@@ -7,13 +7,10 @@ import (
 )
 
 func Example() {
-	p, err := pass.Generate(false, false)
+	p, err := pass.Generate(true, true, 33)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Print(len(p))
-
-	// Output:
-	// 20
+	fmt.Print(p)
 }
