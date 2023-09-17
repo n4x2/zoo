@@ -1,4 +1,4 @@
-// Package pass provides password generation.
+// Package pass is password generator.
 package pass
 
 import (
@@ -22,28 +22,23 @@ var (
 	symbols = []byte("!@#$%^&*")
 )
 
-// invalidLengthError error returns if password length is invalid.
+// invalidLengthError error returns for invalid length password.
 var invalidLengthError = errors.New("length must be between 1 and 50 characters")
 
-// isConsecutiveType checks if two bytes have the same character type.
-func isConsecutiveType(p, n byte) bool {
-	var pr, nr = rune(p), rune(n)
-
-	return (unicode.IsLower(pr) && unicode.IsLower(nr)) ||
-		(unicode.IsUpper(pr) && unicode.IsUpper(nr)) ||
-		(unicode.IsNumber(pr) && unicode.IsNumber(nr)) ||
-		(unicode.IsSymbol(pr) && unicode.IsSymbol(nr))
+// isConsecutiveType checks if 'p' and 'n' is same character type.
+func isConsecutiveType(p, n rune) bool {
+	return (unicode.IsLower(p) && unicode.IsLower(n)) ||
+		(unicode.IsUpper(p) && unicode.IsUpper(n)) ||
+		(unicode.IsNumber(p) && unicode.IsNumber(n)) ||
+		(unicode.IsSymbol(p) && unicode.IsSymbol(n))
 }
 
 // randByte selects a random byte from a given slice of bytes.
 func randByte(s []byte) byte {
-	l := int64(len(s))
-
-	i, err := rand.Int(rand.Reader, big.NewInt(l))
+	i, err := rand.Int(rand.Reader, big.NewInt(int64(len(s))))
 	if err != nil {
 		panic(err)
 	}
-
 	return s[i.Int64()]
 }
 
@@ -65,48 +60,39 @@ func Generate(n, s bool, l ...int) (string, error) {
 	}
 
 	var chars = letters
-	var hasNumber, hasSymbol = true, true
 	if n {
 		chars = append(chars, numbers...)
-		hasNumber = false
 	}
 
 	if s {
 		chars = append(chars, symbols...)
-		hasSymbol = false
 	}
 
 	var p = make([]byte, length)
 	for i := range p {
 		for {
 			var c = randByte(chars)
-			if i == 0 {
+			if i == 0 || (!isConsecutiveType(rune(p[i-1]), rune(c)) && !is.Contain(p[:i], c)) {
 				p[i] = c
 				break
 			}
 
-			if !isConsecutiveType(p[i-1], c) && !is.Contain(p[:i], c) {
-				p[i] = c
-				break
-			}
-
-			if !hasSymbol {
+			if s {
 				if !is.ContainOneOf(p[:i], symbols) {
 					p[i] = randByte(symbols)
-					hasSymbol = true
+					s = false
 					break
 				}
 			}
 
-			if !hasNumber {
+			if n {
 				if !is.ContainOneOf(p[:i], numbers) {
 					p[i] = randByte(numbers)
-					hasNumber = true
+					n = false
 					break
 				}
 			}
 		}
 	}
-
 	return string(p), nil
 }
