@@ -38,3 +38,9 @@ type Complex interface {
 type Ordered interface {
 	Integer | Float | ~string
 }
+
+// Number is a constraint that permits any floating-point and
+// interger type.
+type Number interface {
+	Float | Integer
+}
