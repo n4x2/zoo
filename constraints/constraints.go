@@ -1,11 +1,9 @@
+// Copyright 2021 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can
+// be found at https://cs.opensource.google/go/x/exp/+/master:LICENSE
+
 // Package constraints defines a set of useful constraints to be used
 // with type parameters.
-//
-// Copyright 2021 The Go Authors. All rights reserved. This code is
-// based on [constraints package] licensed under [BSD License].
-//
-// [constraints package]: https://cs.opensource.google/go/x/exp/+/master:constraints/constraints.go
-// [BSD License]: https://cs.opensource.google/go/x/exp/+/master:LICENSE
 package constraints
 
 // Signed is a constraint that permits any signed integer type.

@@ -1,12 +1,8 @@
+// Copyright 2015 Dean Karn. All rights reserved.
+// Use of this source code is governed by a MIT license that can be found
+// at https://github.com/go-playground/validator/blob/master/LICENSE
+
 // Package regex provides regular expressions.
-//
-// Copyright (c) 2015-present [Dean Karn]. This is modified version of [regexes]
-// from [go-playground/validator] licensed under the [MIT License],
-//
-// [Dean Karn]: https://github.com/deankarn
-// [regexes]: https://github.com/go-playground/validator/blob/master/regexes.go
-// [go-playground/validator]: https://github.com/go-playground/validator/blob/master/regexes.go
-// [MIT License]: https://github.com/go-playground/validator/blob/master/LICENSE
 package regex
 
 import "regexp"
