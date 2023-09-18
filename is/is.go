@@ -1,7 +1,11 @@
 // Package is provides functions for checking types and values.
 package is
 
-import "reflect"
+import (
+	"reflect"
+
+	"github.com/n4x2/zoo/constraints"
+)
 
 // Bool checks if the value is a boolean.
 func Bool(v interface{}) bool {
@@ -67,9 +71,7 @@ func Int(v interface{}) bool {
 }
 
 // Range checks if 'v' in range 'b' and 'e'.
-func Range[T interface {
-	~byte | ~rune | ~int | ~float64
-}](b, e, v T) bool {
+func Range[T constraints.Number](b, e, v T) bool {
 	return v >= b && v <= e
 }
 
