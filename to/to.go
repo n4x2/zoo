@@ -27,7 +27,7 @@ const (
 // conversion fails.
 var conversionError = "unable to convert %v type of %T to %s"
 
-// Float64 convert given 'v' to float64 type.
+// Float32 convert given 'v' to float32 type.
 func Float32(v interface{}) (float32, error) {
 	switch v := v.(type) {
 	case bool:
