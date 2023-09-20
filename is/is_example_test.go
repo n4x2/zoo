@@ -7,6 +7,46 @@ import (
 	"github.com/n4x2/zoo/is"
 )
 
+func ExampleAlpha() {
+	t := []string{"orange", "I like apple!"}
+	for _, v := range t {
+		fmt.Println(is.Alpha(v))
+	}
+
+	// Output:
+	// true
+	// false
+}
+
+func ExampleAlphaDash() {
+	t := []string{"user_123", "command-line"}
+	for _, v := range t {
+		fmt.Println(is.AlphaDash(v))
+	}
+
+	// Output:
+	// true
+	// true
+}
+
+func ExampleAlphaNumeric() {
+	t := []string{"user_123", "user123"}
+	for _, v := range t {
+		fmt.Println(is.AlphaNumeric(v))
+	}
+
+	// Output:
+	// false
+	// true
+}
+
+func ExampleASCII() {
+	fmt.Println(is.ASCII("Hello World!"))
+
+	// Output:
+	// true
+}
+
 func ExampleBool() {
 	s := []interface{}{
 		false,
@@ -141,6 +181,34 @@ func ExampleLessThanEqual() {
 	// true
 }
 
+func ExampleLowercase() {
+	fmt.Println(is.Lowercase("cigarette"))
+	// Output:
+	// true
+}
+
+func ExampleNumber() {
+	t := []string{"3", "3.14"}
+	for _, v := range t {
+		fmt.Println(is.Number(v))
+	}
+
+	// Output:
+	// true
+	// false
+}
+
+func ExampleNumeric() {
+	t := []string{"3", "3.14"}
+	for _, v := range t {
+		fmt.Println(is.Numeric(v))
+	}
+
+	// Output:
+	// true
+	// true
+}
+
 func ExampleRange() {
 	fmt.Println(is.Range('a', 'z', 'd'))
 	fmt.Println(is.Range('a', 'z', 'H'))
@@ -207,4 +275,10 @@ func ExampleUint() {
 	// Output:
 	// true
 	// false
+}
+
+func ExampleUppercase() {
+	fmt.Println(is.Uppercase("HELLO WORLD"))
+	// Output:
+	// true
 }

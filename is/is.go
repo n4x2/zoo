@@ -3,9 +3,32 @@ package is
 
 import (
 	"reflect"
+	"strings"
 
 	"github.com/n4x2/zoo/constraints"
+	"github.com/n4x2/zoo/regex"
 )
+
+// Alpha checks if the value is letters a-z or A-Z.
+func Alpha(v string) bool {
+	return regex.Alpha.MatchString(v)
+}
+
+// AlphaDash checks if the value is letters, numbers, dash, and
+// underscore.
+func AlphaDash(v string) bool {
+	return regex.AlphaDash.MatchString(v)
+}
+
+// AlphaNumeric checks if the value is letters and numbers.
+func AlphaNumeric(v string) bool {
+	return regex.AlphaNumeric.MatchString(v)
+}
+
+// ASCII checks if the value is ASCII characters.
+func ASCII(v string) bool {
+	return regex.ASCII.MatchString(v)
+}
 
 // Bool checks if the value is a boolean.
 func Bool(v interface{}) bool {
@@ -90,6 +113,22 @@ func LessThanEqual[T constraints.Number](v, p T) bool {
 	return v <= p
 }
 
+// Lowercase checks if the value is lower case.
+func Lowercase(v string) bool {
+	return strings.ToLower(v) == v
+}
+
+// Number checks if the value is numbers.
+func Number(v string) bool {
+	return regex.Number.MatchString(v)
+}
+
+// Numeric checks if the value is numeric type: integer or
+// floating-point.
+func Numeric(v string) bool {
+	return regex.Numeric.MatchString(v)
+}
+
 // Range checks if 'v' in range 'b' and 'e'.
 func Range[T constraints.Number](b, e, v T) bool {
 	return v >= b && v <= e
@@ -127,4 +166,9 @@ func Uint(v interface{}) bool {
 	default:
 		return false
 	}
+}
+
+// Uppercase checks if the value is upper case.
+func Uppercase(v string) bool {
+	return strings.ToUpper(v) == v
 }
