@@ -62,6 +62,11 @@ func ContainOneOf[S comparable](s []S, ss []S) bool {
 	return false
 }
 
+// Email checks if the value is valid email.
+func Email(v string) bool {
+	return regex.Email.MatchString(v)
+}
+
 // Equal checks if two comparable values are equal.
 func Equal[T comparable](v, vv T) bool {
 	return v == vv
@@ -103,6 +108,11 @@ func Int(v interface{}) bool {
 	}
 }
 
+// Latitude checks if the is valid latitude.
+func Latitude(v string) bool {
+	return regex.Latitude.MatchString(v)
+}
+
 // LessThan checks if 'v' is less than 'p'.
 func LessThan[T constraints.Number](v, p T) bool {
 	return v < p
@@ -111,6 +121,11 @@ func LessThan[T constraints.Number](v, p T) bool {
 // LessThanEqual checks if 'v' is less than or equal 'p'.
 func LessThanEqual[T constraints.Number](v, p T) bool {
 	return v <= p
+}
+
+// Longitude checks if the value is valid longitude.
+func Longitude(v string) bool {
+	return regex.Longitude.MatchString(v)
 }
 
 // Lowercase checks if the value is lower case.
@@ -168,7 +183,17 @@ func Uint(v interface{}) bool {
 	}
 }
 
+// ULID checks if the value is valid ULID.
+func ULID(v string) bool {
+	return regex.ULID.MatchString(v)
+}
+
 // Uppercase checks if the value is upper case.
 func Uppercase(v string) bool {
 	return strings.ToUpper(v) == v
+}
+
+// UUID checks if the value is valid UUID.
+func UUID(v string) bool {
+	return regex.UUID.MatchString(v)
 }

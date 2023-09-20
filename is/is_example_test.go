@@ -102,6 +102,22 @@ func ExampleContainOneOf() {
 	// false
 }
 
+func ExampleEmail() {
+	examples := []string{
+		"user@example.com",
+		"invalid_email@email",
+		"another_user@example.com",
+	}
+
+	for _, v := range examples {
+		fmt.Println(is.Email(v))
+	}
+	// Output:
+	// true
+	// false
+	// true
+}
+
 func ExampleEqual() {
 	var a, b = 1, 2
 	var c, d = [3]byte{'a', 'b', 'c'}, [3]byte{'c', 'b', 'a'}
@@ -169,6 +185,18 @@ func ExampleInt() {
 	// true
 }
 
+func ExampleLongitude() {
+	examples := []string{"-179.999999", "180.000001", "invalid"}
+
+	for _, v := range examples {
+		fmt.Println(is.Longitude(v))
+	}
+	// Output:
+	// true
+	// false
+	// false
+}
+
 func ExampleLessThan() {
 	fmt.Print(is.LessThan(1, 2))
 	// Output:
@@ -179,6 +207,19 @@ func ExampleLessThanEqual() {
 	fmt.Print(is.LessThanEqual(2, 2))
 	// Output:
 	// true
+}
+
+func ExampleLatitude() {
+	examples := []string{"-90.000001", "90.000001", "-89.999999", "invalid"}
+
+	for _, v := range examples {
+		fmt.Println(is.Latitude(v))
+	}
+	// Output:
+	// false
+	// false
+	// true
+	// false
 }
 
 func ExampleLowercase() {
@@ -277,8 +318,36 @@ func ExampleUint() {
 	// false
 }
 
+func ExampleULID() {
+	t := []string{
+		"01AN4Z07BY79KA1307SR9X4MV3", // True ULID
+		"not_a_valid_ulid",           // False ULID
+	}
+
+	for _, v := range t {
+		fmt.Println(is.ULID(v))
+	}
+	// Output:
+	// true
+	// false
+}
+
 func ExampleUppercase() {
 	fmt.Println(is.Uppercase("HELLO WORLD"))
 	// Output:
 	// true
+}
+
+func ExampleUUID() {
+	t := []string{
+		"550e8400-e29b-41d4-a716-446655440000",
+		"not_a_valid_uuid",
+	}
+
+	for _, v := range t {
+		fmt.Println(is.UUID(v))
+	}
+	// Output:
+	// true
+	// false
 }
