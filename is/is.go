@@ -60,6 +60,16 @@ func Float(v interface{}) bool {
 	}
 }
 
+// GreaterThan checks if 'v' is greater than 'p'.
+func GreaterThan[T constraints.Number](v, p T) bool {
+	return v > p
+}
+
+// GreaterThanEqual checks if 'v' is greater than or equal 'p'.
+func GreaterThanEqual[T constraints.Number](v, p T) bool {
+	return v >= p
+}
+
 // Int checks if the value is an integer.
 func Int(v interface{}) bool {
 	switch v.(type) {
@@ -68,6 +78,16 @@ func Int(v interface{}) bool {
 	default:
 		return false
 	}
+}
+
+// LessThan checks if 'v' is less than 'p'.
+func LessThan[T constraints.Number](v, p T) bool {
+	return v < p
+}
+
+// LessThanEqual checks if 'v' is less than or equal 'p'.
+func LessThanEqual[T constraints.Number](v, p T) bool {
+	return v <= p
 }
 
 // Range checks if 'v' in range 'b' and 'e'.

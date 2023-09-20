@@ -102,6 +102,18 @@ func ExampleFloat() {
 	// true
 }
 
+func ExampleGreaterThan() {
+	fmt.Print(is.GreaterThan(1, 2))
+	// Output:
+	// false
+}
+
+func ExampleGreaterThanEqual() {
+	fmt.Print(is.GreaterThanEqual(2, 2))
+	// Output:
+	// true
+}
+
 func ExampleInt() {
 	s := []interface{}{
 		rune('a'),
@@ -114,6 +126,18 @@ func ExampleInt() {
 
 	// Output:
 	// true
+	// true
+}
+
+func ExampleLessThan() {
+	fmt.Print(is.LessThan(1, 2))
+	// Output:
+	// true
+}
+
+func ExampleLessThanEqual() {
+	fmt.Print(is.LessThanEqual(2, 2))
+	// Output:
 	// true
 }
 
