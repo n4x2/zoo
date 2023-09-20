@@ -9,7 +9,7 @@ import "regexp"
 
 const (
 	alphaPattern                 = "^[a-zA-Z]+$"
-	alphaDashPattern             = "^[a-zA-Z_-]+$"
+	alphaDashPattern             = "^[a-zA-Z0-9_-]+$"
 	alphaNumericPattern          = "^[a-zA-Z0-9]+$"
 	alphaUnicodePattern          = "^[\\p{L}]+$"
 	alphaUnicodeNumericPattern   = "^[\\p{L}\\p{N}]+$"
