@@ -22,9 +22,9 @@ func assert[T any](t *testing.T, fn func(v any) (T, error), n, x string, v any, 
 func TestFloatingPoint(t *testing.T) {
 	t.Parallel()
 	var tests = []struct {
-		name     string
-		input    interface{}
-		expected bool
+		name  string
+		input interface{}
+		err   bool
 	}{
 		{"bool true", true, false},
 		{"bool false", false, false},
@@ -50,11 +50,11 @@ func TestFloatingPoint(t *testing.T) {
 		test := test
 		t.Run("float32: test "+test.name, func(t *testing.T) {
 			t.Parallel()
-			assert[float32](t, Float32, test.name, "float32", test.input, test.expected)
+			assert[float32](t, Float32, test.name, "float32", test.input, test.err)
 		})
 		t.Run("float64: test "+test.name, func(t *testing.T) {
 			t.Parallel()
-			assert[float64](t, Float64, test.name, "float64", test.input, test.expected)
+			assert[float64](t, Float64, test.name, "float64", test.input, test.err)
 		})
 	}
 }
