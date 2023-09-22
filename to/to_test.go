@@ -232,3 +232,37 @@ func TestUnsignedInteger(t *testing.T) {
 		})
 	}
 }
+
+func TestString(t *testing.T) {
+	t.Parallel()
+	var tests = []struct {
+		name  string
+		input interface{}
+		err   bool
+	}{
+		{"bool true", true, false},
+		{"bool false", false, false},
+		{"float32", float32(0.1210), false},
+		{"float64", float64(-10.1), false},
+		{"int", int(-11), false},
+		{"int8", int8(8), false},
+		{"int16", int16(16), false},
+		{"int32", int32(32), false},
+		{"int64", int64(46), false},
+		{"nil", nil, false},
+		{"string 1", "1", false},
+		{"uint", uint(0), false},
+		{"uint8", uint8(8), false},
+		{"uint16", uint16(16), false},
+		{"uint32", uint32(32), false},
+		{"uint64", uint64(46), false},
+		{"fail slice []int", []int{0}, true},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run("string: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[string](t, String, test.name, "string", test.input, test.err)
+		})
+	}
+}

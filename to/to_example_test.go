@@ -148,3 +148,14 @@ func ExampleUint64() {
 	// Output:
 	// 0 type of uint64
 }
+
+func ExampleString() {
+	u, err := to.String(false)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// false type of string
+}
