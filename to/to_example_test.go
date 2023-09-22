@@ -27,3 +27,14 @@ func ExampleFloat64() {
 	// Output:
 	// 3.14 type of float64
 }
+
+func ExampleBool() {
+	b, err := to.Bool(0)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", b, b)
+	// Output:
+	// false type of bool
+}
