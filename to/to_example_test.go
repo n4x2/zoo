@@ -93,3 +93,58 @@ func ExampleInt64() {
 	// Output:
 	// -1 type of int64
 }
+
+func ExampleUint() {
+	u, err := to.Uint("1")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// 1 type of uint
+}
+
+func ExampleUint8() {
+	u, err := to.Uint8(true)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// 1 type of uint8
+}
+
+func ExampleUint16() {
+	u, err := to.Uint16(0)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// 0 type of uint16
+}
+
+func ExampleUint32() {
+	u, err := to.Uint32(1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// 1 type of uint32
+}
+
+func ExampleUint64() {
+	u, err := to.Uint64(nil)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", u, u)
+	// Output:
+	// 0 type of uint64
+}

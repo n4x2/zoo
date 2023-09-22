@@ -10,7 +10,7 @@ func assert[T any](t *testing.T, fn func(v any) (T, error), n, x string, v any, 
 	t.Run(n, func(t *testing.T) {
 		value, err := fn(v)
 		if err == nil && e {
-			t.Errorf("unexpected error %v", err)
+			t.Errorf("unexpected error %v", err.Error())
 		}
 
 		if x != fmt.Sprintf("%T", value) && !e {
@@ -168,6 +168,67 @@ func TestSignedInteger(t *testing.T) {
 		t.Run("int64: test "+test.name, func(t *testing.T) {
 			t.Parallel()
 			assert[int64](t, Int64, test.name, "int64", test.input, test.err)
+		})
+	}
+}
+
+func TestUnsignedInteger(t *testing.T) {
+	t.Parallel()
+	var tests = []struct {
+		name  string
+		input interface{}
+		err   bool
+	}{
+		{"bool true", true, false},
+		{"bool false", false, false},
+		{"float32", float32(1), false},
+		{"float64", float64(1), false},
+		{"int", int(1), false},
+		{"int8", int8(1), false},
+		{"int16", int16(1), false},
+		{"int32", int32(1), false},
+		{"int64", int64(1), false},
+		{"nil", nil, false},
+		{"string 1", "1", false},
+		{"uint", uint(1), false},
+		{"uint8", uint8(1), false},
+		{"uint16", uint16(1), false},
+		{"uint32", uint32(1), false},
+		{"uint64", uint64(1), false},
+
+		//fail
+		{"fail string ;", ";", true},
+		{"fail slice []int", []int{0}, true},
+		{"fail float32", float32(-1), true},
+		{"fail float64", float64(-1), true},
+		{"fail int", int(-1), true},
+		{"fail int8", int8(-1), true},
+		{"fail int16", int16(-1), true},
+		{"fail int32", int32(-1), true},
+		{"fail int64", int64(-1), true},
+		{"fail string -1", "-1", true},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run("uint: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[uint](t, Uint, test.name, "uint", test.input, test.err)
+		})
+		t.Run("uint8: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[uint8](t, Uint8, test.name, "uint8", test.input, test.err)
+		})
+		t.Run("uint16: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[uint16](t, Uint16, test.name, "uint16", test.input, test.err)
+		})
+		t.Run("uint32: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[uint32](t, Uint32, test.name, "uint32", test.input, test.err)
+		})
+		t.Run("uint64: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[uint64](t, Uint64, test.name, "uint64", test.input, test.err)
 		})
 	}
 }

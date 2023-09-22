@@ -2,6 +2,7 @@
 package to
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -26,6 +27,10 @@ const (
 // conversionError is a string format used for error messages when a
 // conversion fails.
 var conversionError = "unable to convert %v type of %T to %s"
+
+// negativeValueError error returns for attempt convert value less
+// than 0 for unsigned integers conversion.
+var negativeValueError = errors.New("negative value is not allowed")
 
 // Bool convert given 'v' to boolean type.
 func Bool(v interface{}) (bool, error) {
@@ -377,5 +382,355 @@ func Int64(v interface{}) (int64, error) {
 		return int64(v), nil
 	default:
 		return 0, fmt.Errorf(conversionError, v, v, i64)
+	}
+}
+
+// Uint convert given 'v' to uint type.
+func Uint(v interface{}) (uint, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case float64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case int:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case int8:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case int16:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case int32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case int64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		u, err := strconv.ParseInt(v, 0, 0)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, u)
+		}
+
+		if u < 0 {
+			return 0, negativeValueError
+		}
+		return uint(u), nil
+	case uint:
+		return v, nil
+	case uint8:
+		return uint(v), nil
+	case uint16:
+		return uint(v), nil
+	case uint32:
+		return uint(v), nil
+	case uint64:
+		return uint(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i)
+	}
+}
+
+// Uint8 convert given 'v' to uint8 type.
+func Uint8(v interface{}) (uint8, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case float64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case int:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case int8:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case int16:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case int32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case int64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		u, err := strconv.ParseInt(v, 0, 8)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, u8)
+		}
+
+		if u < 0 {
+			return 0, negativeValueError
+		}
+		return uint8(u), nil
+	case uint:
+		return uint8(v), nil
+	case uint8:
+		return v, nil
+	case uint16:
+		return uint8(v), nil
+	case uint32:
+		return uint8(v), nil
+	case uint64:
+		return uint8(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, u8)
+	}
+}
+
+// Uint16 convert given 'v' to unt16 type.
+func Uint16(v interface{}) (uint16, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case float64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case int:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case int8:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case int16:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case int32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case int64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		u, err := strconv.ParseInt(v, 0, 16)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, u16)
+		}
+
+		if u < 0 {
+			return 0, negativeValueError
+		}
+		return uint16(u), nil
+	case uint:
+		return uint16(v), nil
+	case uint8:
+		return uint16(v), nil
+	case uint16:
+		return v, nil
+	case uint32:
+		return uint16(v), nil
+	case uint64:
+		return uint16(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, u16)
+	}
+}
+
+// Uint32 convert given 'v' to uint32 type.
+func Uint32(v interface{}) (uint32, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case float64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case int:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case int8:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case int16:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case int32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case int64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		u, err := strconv.ParseInt(v, 0, 32)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, u32)
+		}
+
+		if u < 0 {
+			return 0, negativeValueError
+		}
+		return uint32(u), nil
+	case uint:
+		return uint32(v), nil
+	case uint8:
+		return uint32(v), nil
+	case uint16:
+		return uint32(v), nil
+	case uint32:
+		return v, nil
+	case uint64:
+		return uint32(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, u32)
+	}
+}
+
+// Uint64 convert given 'v' to uint64 type.
+func Uint64(v interface{}) (uint64, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case float64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case int:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case int8:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case int16:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case int32:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case int64:
+		if v < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		u, err := strconv.ParseInt(v, 0, 64)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, u64)
+		}
+
+		if u < 0 {
+			return 0, negativeValueError
+		}
+		return uint64(u), nil
+	case uint:
+		return uint64(v), nil
+	case uint8:
+		return uint64(v), nil
+	case uint16:
+		return uint64(v), nil
+	case uint32:
+		return uint64(v), nil
+	case uint64:
+		return v, nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, u64)
 	}
 }
