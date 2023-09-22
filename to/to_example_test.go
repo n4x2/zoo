@@ -38,3 +38,58 @@ func ExampleBool() {
 	// Output:
 	// false type of bool
 }
+
+func ExampleInt() {
+	i, err := to.Int(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", i, i)
+	// Output:
+	// -1 type of int
+}
+
+func ExampleInt8() {
+	i, err := to.Int8(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", i, i)
+	// Output:
+	// -1 type of int8
+}
+
+func ExampleInt16() {
+	i, err := to.Int16(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", i, i)
+	// Output:
+	// -1 type of int16
+}
+
+func ExampleInt32() {
+	i, err := to.Int32(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", i, i)
+	// Output:
+	// -1 type of int32
+}
+
+func ExampleInt64() {
+	i, err := to.Int64(-1)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%v type of %T", i, i)
+	// Output:
+	// -1 type of int64
+}

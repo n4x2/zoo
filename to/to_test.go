@@ -119,3 +119,55 @@ func TestBool(t *testing.T) {
 		})
 	}
 }
+
+func TestSignedInteger(t *testing.T) {
+	t.Parallel()
+	var tests = []struct {
+		name  string
+		input interface{}
+		err   bool
+	}{
+		{"bool true", true, false},
+		{"bool false", false, false},
+		{"float32", float32(-1), false},
+		{"float64", float64(-1), false},
+		{"int", int(-1), false},
+		{"int8", int8(-1), false},
+		{"int16", int16(-1), false},
+		{"int32", int32(-1), false},
+		{"int64", int64(-1), false},
+		{"nil", nil, false},
+		{"string -1", "-1", false},
+		{"string 1", "1", false},
+		{"uint", uint(1), false},
+		{"uint8", uint8(1), false},
+		{"uint16", uint16(1), false},
+		{"uint32", uint32(1), false},
+		{"uint64", uint64(1), false},
+		{"fail string ;", ";", true},
+		{"fail slice []int", []int{0}, true},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run("int: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[int](t, Int, test.name, "int", test.input, test.err)
+		})
+		t.Run("int8: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[int8](t, Int8, test.name, "int8", test.input, test.err)
+		})
+		t.Run("int16: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[int16](t, Int16, test.name, "int16", test.input, test.err)
+		})
+		t.Run("int32: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[int32](t, Int32, test.name, "int32", test.input, test.err)
+		})
+		t.Run("int64: test "+test.name, func(t *testing.T) {
+			t.Parallel()
+			assert[int64](t, Int64, test.name, "int64", test.input, test.err)
+		})
+	}
+}

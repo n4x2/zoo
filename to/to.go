@@ -154,3 +154,228 @@ func Float64(v interface{}) (float64, error) {
 		return 0, fmt.Errorf(conversionError, v, v, f64)
 	}
 }
+
+// Int convert given 'v' to int type.
+func Int(v interface{}) (int, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		return int(v), nil
+	case float64:
+		return int(v), nil
+	case int:
+		return v, nil
+	case int8:
+		return int(v), nil
+	case int16:
+		return int(v), nil
+	case int32:
+		return int(v), nil
+	case int64:
+		return int(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		f, err := strconv.ParseInt(v, 0, 0)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, i)
+		}
+		return int(f), nil
+	case uint:
+		return int(v), nil
+	case uint8:
+		return int(v), nil
+	case uint16:
+		return int(v), nil
+	case uint32:
+		return int(v), nil
+	case uint64:
+		return int(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i)
+	}
+}
+
+// Int8 convert given 'v' to int8 type.
+func Int8(v interface{}) (int8, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		return int8(v), nil
+	case float64:
+		return int8(v), nil
+	case int:
+		return int8(v), nil
+	case int8:
+		return v, nil
+	case int16:
+		return int8(v), nil
+	case int32:
+		return int8(v), nil
+	case int64:
+		return int8(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		f, err := strconv.ParseInt(v, 0, 8)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, i8)
+		}
+		return int8(f), nil
+	case uint:
+		return int8(v), nil
+	case uint8:
+		return int8(v), nil
+	case uint16:
+		return int8(v), nil
+	case uint32:
+		return int8(v), nil
+	case uint64:
+		return int8(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i8)
+	}
+}
+
+// Int16 convert given 'v' to int16 type.
+func Int16(v interface{}) (int16, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		return int16(v), nil
+	case float64:
+		return int16(v), nil
+	case int:
+		return int16(v), nil
+	case int8:
+		return int16(v), nil
+	case int16:
+		return v, nil
+	case int32:
+		return int16(v), nil
+	case int64:
+		return int16(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		f, err := strconv.ParseInt(v, 0, 16)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, i16)
+		}
+		return int16(f), nil
+	case uint:
+		return int16(v), nil
+	case uint8:
+		return int16(v), nil
+	case uint16:
+		return int16(v), nil
+	case uint32:
+		return int16(v), nil
+	case uint64:
+		return int16(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i16)
+	}
+}
+
+// Int32 convert given 'v' to int32 type.
+func Int32(v interface{}) (int32, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		return int32(v), nil
+	case float64:
+		return int32(v), nil
+	case int:
+		return int32(v), nil
+	case int8:
+		return int32(v), nil
+	case int16:
+		return int32(v), nil
+	case int32:
+		return v, nil
+	case int64:
+		return int32(v), nil
+	case nil:
+		return 0, nil
+	case string:
+		f, err := strconv.ParseInt(v, 0, 32)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, i32)
+		}
+		return int32(f), nil
+	case uint:
+		return int32(v), nil
+	case uint8:
+		return int32(v), nil
+	case uint16:
+		return int32(v), nil
+	case uint32:
+		return int32(v), nil
+	case uint64:
+		return int32(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i32)
+	}
+}
+
+// Int64 convert given 'v' to int64 type.
+func Int64(v interface{}) (int64, error) {
+	switch v := v.(type) {
+	case bool:
+		if v {
+			return 1, nil
+		}
+		return 0, nil
+	case float32:
+		return int64(v), nil
+	case float64:
+		return int64(v), nil
+	case int:
+		return int64(v), nil
+	case int8:
+		return int64(v), nil
+	case int16:
+		return int64(v), nil
+	case int32:
+		return int64(v), nil
+	case int64:
+		return v, nil
+	case nil:
+		return 0, nil
+	case string:
+		f, err := strconv.ParseInt(v, 0, 64)
+		if err != nil {
+			return 0, fmt.Errorf(conversionError, v, v, i64)
+		}
+		return f, nil
+	case uint:
+		return int64(v), nil
+	case uint8:
+		return int64(v), nil
+	case uint16:
+		return int64(v), nil
+	case uint32:
+		return int64(v), nil
+	case uint64:
+		return int64(v), nil
+	default:
+		return 0, fmt.Errorf(conversionError, v, v, i64)
+	}
+}
