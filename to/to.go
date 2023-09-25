@@ -24,13 +24,21 @@ const (
 	u64 = "uint64"
 )
 
-// conversionError is a string format used for error messages when a
-// conversion fails.
-var conversionError = "unable to convert %v type of %T to %s"
-
-// negativeValueError error returns for attempt convert value less
-// than 0 for unsigned integers conversion.
+// negativeValueError error returns for attempt convert value less than 0 for
+// unsigned integers conversion.
 var negativeValueError = errors.New("negative value is not allowed")
+
+// typeConversionError an error type for cases where fail type  conversion is
+// encountered.
+type typeConversionError struct {
+	v any    // The value.
+	t string // Target type.
+}
+
+// Error an error for the typeConversionError type.
+func (e *typeConversionError) Error() string {
+	return fmt.Sprintf("unable to convert %v type of %T to %s", e.v, e.v, e.t)
+}
 
 // Bool convert given 'v' to boolean type.
 func Bool(v interface{}) (bool, error) {
@@ -66,7 +74,7 @@ func Bool(v interface{}) (bool, error) {
 	case uint64:
 		return v != 0, nil
 	default:
-		return false, fmt.Errorf(conversionError, v, v, b)
+		return false, &typeConversionError{v: v, t: b}
 	}
 }
 
@@ -95,11 +103,11 @@ func Float32(v interface{}) (float32, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseFloat(v, 32)
+		pv, err := strconv.ParseFloat(v, 32)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, f32)
+			return 0, &typeConversionError{v: v, t: f32}
 		}
-		return float32(f), nil
+		return float32(pv), nil
 	case uint:
 		return float32(v), nil
 	case uint8:
@@ -111,7 +119,7 @@ func Float32(v interface{}) (float32, error) {
 	case uint64:
 		return float32(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, f32)
+		return 0, &typeConversionError{v: v, t: f32}
 	}
 }
 
@@ -140,11 +148,11 @@ func Float64(v interface{}) (float64, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseFloat(v, 64)
+		pv, err := strconv.ParseFloat(v, 64)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, f64)
+			return 0, &typeConversionError{v: v, t: f64}
 		}
-		return float64(f), nil
+		return float64(pv), nil
 	case uint:
 		return float64(v), nil
 	case uint8:
@@ -156,7 +164,7 @@ func Float64(v interface{}) (float64, error) {
 	case uint64:
 		return float64(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, f64)
+		return 0, &typeConversionError{v: v, t: f64}
 	}
 }
 
@@ -185,11 +193,11 @@ func Int(v interface{}) (int, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseInt(v, 0, 0)
+		pv, err := strconv.ParseInt(v, 0, 0)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, i)
+			return 0, &typeConversionError{v: v, t: i}
 		}
-		return int(f), nil
+		return int(pv), nil
 	case uint:
 		return int(v), nil
 	case uint8:
@@ -201,7 +209,7 @@ func Int(v interface{}) (int, error) {
 	case uint64:
 		return int(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i)
+		return 0, &typeConversionError{v: v, t: i}
 	}
 }
 
@@ -230,11 +238,11 @@ func Int8(v interface{}) (int8, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseInt(v, 0, 8)
+		pv, err := strconv.ParseInt(v, 0, 8)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, i8)
+			return 0, &typeConversionError{v: v, t: i8}
 		}
-		return int8(f), nil
+		return int8(pv), nil
 	case uint:
 		return int8(v), nil
 	case uint8:
@@ -246,7 +254,7 @@ func Int8(v interface{}) (int8, error) {
 	case uint64:
 		return int8(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i8)
+		return 0, &typeConversionError{v: v, t: i8}
 	}
 }
 
@@ -275,11 +283,11 @@ func Int16(v interface{}) (int16, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseInt(v, 0, 16)
+		pv, err := strconv.ParseInt(v, 0, 16)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, i16)
+			return 0, &typeConversionError{v: v, t: i16}
 		}
-		return int16(f), nil
+		return int16(pv), nil
 	case uint:
 		return int16(v), nil
 	case uint8:
@@ -291,7 +299,7 @@ func Int16(v interface{}) (int16, error) {
 	case uint64:
 		return int16(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i16)
+		return 0, &typeConversionError{v: v, t: i16}
 	}
 }
 
@@ -320,11 +328,11 @@ func Int32(v interface{}) (int32, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseInt(v, 0, 32)
+		pv, err := strconv.ParseInt(v, 0, 32)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, i32)
+			return 0, &typeConversionError{v: v, t: i32}
 		}
-		return int32(f), nil
+		return int32(pv), nil
 	case uint:
 		return int32(v), nil
 	case uint8:
@@ -336,7 +344,7 @@ func Int32(v interface{}) (int32, error) {
 	case uint64:
 		return int32(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i32)
+		return 0, &typeConversionError{v: v, t: i32}
 	}
 }
 
@@ -365,11 +373,11 @@ func Int64(v interface{}) (int64, error) {
 	case nil:
 		return 0, nil
 	case string:
-		f, err := strconv.ParseInt(v, 0, 64)
+		pv, err := strconv.ParseInt(v, 0, 64)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, i64)
+			return 0, &typeConversionError{v: v, t: i64}
 		}
-		return f, nil
+		return int64(pv), nil
 	case uint:
 		return int64(v), nil
 	case uint8:
@@ -381,7 +389,7 @@ func Int64(v interface{}) (int64, error) {
 	case uint64:
 		return int64(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i64)
+		return 0, &typeConversionError{v: v, t: i64}
 	}
 }
 
@@ -431,15 +439,15 @@ func Uint(v interface{}) (uint, error) {
 	case nil:
 		return 0, nil
 	case string:
-		u, err := strconv.ParseInt(v, 0, 0)
+		pv, err := strconv.ParseInt(v, 0, 0)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, u)
+			return 0, &typeConversionError{v: v, t: u}
 		}
 
-		if u < 0 {
+		if pv < 0 {
 			return 0, negativeValueError
 		}
-		return uint(u), nil
+		return uint(pv), nil
 	case uint:
 		return v, nil
 	case uint8:
@@ -451,7 +459,7 @@ func Uint(v interface{}) (uint, error) {
 	case uint64:
 		return uint(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, i)
+		return 0, &typeConversionError{v: v, t: u}
 	}
 }
 
@@ -501,15 +509,15 @@ func Uint8(v interface{}) (uint8, error) {
 	case nil:
 		return 0, nil
 	case string:
-		u, err := strconv.ParseInt(v, 0, 8)
+		pv, err := strconv.ParseInt(v, 0, 8)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, u8)
+			return 0, &typeConversionError{v: v, t: u8}
 		}
 
-		if u < 0 {
+		if pv < 0 {
 			return 0, negativeValueError
 		}
-		return uint8(u), nil
+		return uint8(pv), nil
 	case uint:
 		return uint8(v), nil
 	case uint8:
@@ -521,7 +529,7 @@ func Uint8(v interface{}) (uint8, error) {
 	case uint64:
 		return uint8(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, u8)
+		return 0, &typeConversionError{v: v, t: u8}
 	}
 }
 
@@ -571,15 +579,15 @@ func Uint16(v interface{}) (uint16, error) {
 	case nil:
 		return 0, nil
 	case string:
-		u, err := strconv.ParseInt(v, 0, 16)
+		pv, err := strconv.ParseInt(v, 0, 16)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, u16)
+			return 0, &typeConversionError{v: v, t: u16}
 		}
 
-		if u < 0 {
+		if pv < 0 {
 			return 0, negativeValueError
 		}
-		return uint16(u), nil
+		return uint16(pv), nil
 	case uint:
 		return uint16(v), nil
 	case uint8:
@@ -591,7 +599,7 @@ func Uint16(v interface{}) (uint16, error) {
 	case uint64:
 		return uint16(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, u16)
+		return 0, &typeConversionError{v: v, t: u16}
 	}
 }
 
@@ -641,15 +649,15 @@ func Uint32(v interface{}) (uint32, error) {
 	case nil:
 		return 0, nil
 	case string:
-		u, err := strconv.ParseInt(v, 0, 32)
+		pv, err := strconv.ParseInt(v, 0, 32)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, u32)
+			return 0, &typeConversionError{v: v, t: u32}
 		}
 
-		if u < 0 {
+		if pv < 0 {
 			return 0, negativeValueError
 		}
-		return uint32(u), nil
+		return uint32(pv), nil
 	case uint:
 		return uint32(v), nil
 	case uint8:
@@ -661,7 +669,7 @@ func Uint32(v interface{}) (uint32, error) {
 	case uint64:
 		return uint32(v), nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, u32)
+		return 0, &typeConversionError{v: v, t: u32}
 	}
 }
 
@@ -711,15 +719,15 @@ func Uint64(v interface{}) (uint64, error) {
 	case nil:
 		return 0, nil
 	case string:
-		u, err := strconv.ParseInt(v, 0, 64)
+		pv, err := strconv.ParseInt(v, 0, 64)
 		if err != nil {
-			return 0, fmt.Errorf(conversionError, v, v, u64)
+			return 0, &typeConversionError{v: v, t: u64}
 		}
 
-		if u < 0 {
+		if pv < 0 {
 			return 0, negativeValueError
 		}
-		return uint64(u), nil
+		return uint64(pv), nil
 	case uint:
 		return uint64(v), nil
 	case uint8:
@@ -731,7 +739,7 @@ func Uint64(v interface{}) (uint64, error) {
 	case uint64:
 		return v, nil
 	default:
-		return 0, fmt.Errorf(conversionError, v, v, u64)
+		return 0, &typeConversionError{v: v, t: u64}
 	}
 }
 
@@ -769,6 +777,6 @@ func String(v interface{}) (string, error) {
 	case uint64:
 		return strconv.FormatUint(v, 10), nil
 	default:
-		return "", fmt.Errorf(conversionError, v, v, s)
+		return "", &typeConversionError{v: v, t: s}
 	}
 }

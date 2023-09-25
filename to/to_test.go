@@ -266,3 +266,16 @@ func TestString(t *testing.T) {
 		})
 	}
 }
+
+func TestTypeConversionError_Error(t *testing.T) {
+	err := &typeConversionError{
+		v: 42,       // Sample value
+		t: "string", // Sample target type
+	}
+
+	expectedErrorMsg := "unable to convert 42 type of int to string"
+
+	if err.Error() != expectedErrorMsg {
+		t.Errorf("Expected error message: %s, but got: %s", expectedErrorMsg, err.Error())
+	}
+}
