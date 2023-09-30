@@ -8,4 +8,10 @@
 
 zoo
 ---
-zoo is collection go libraries.
+command         Package command provides a simple structure for a command.
+constraints     Package constraints is modified version golang.org/x/exp/constraints.
+is              Package 'is' provides type checking and value validation.
+pass            Package for generate random non-consecutive string.
+regex           Package regex is set usefull regular expressions.
+to              Package to provides type conversions.
+validator       Package validator wraps github.com/n4x2/zoo/is as struct validator.
